@@ -13,16 +13,27 @@ unitnames = [
     ["cm", "centimetre", "centimetres", "centimeter", "centimeters"],
     ["mm", "milimetre", "milimetres", "milimeter", "milimeters", "millimeter", "millimeters", "millimetre", "millimetres"],
     ["in", "inch", "inches"], ["ft", "foot", "feet"], ["yd", "yard", "yards"],
-    ["mi", "mille", "milles", "mile", "miles"]
+    ["mi", "mile", "miles", "mille", "milles"]
+    ["leag", "league", "leagues", "leage", "leages"]
+    ["er", "earth radius", "earth radiuses", "earth radious", "earth radiouses"]
+    ["ld", "lunar distance", "lunar distances", "moon distance", "moon distances"]
+    ["au", "astronomical unit", "astronomical units", "astro unit", "astro units"]
+    ["ly", "light year", "light years", "ligth year", "ligth years"]
+    ["pc", "parsec", "parsecs", "parasec", "parasecs", "parasect", "parasects"]
+    ["smt", "smoot", "smoots", "moot", "moots"]
 ]
 # this list is used to know which uintnames list is for what unit
 units = {
-    0: "km", 1: "hm", 2: "dam", 3: "m", 4: "dm", 5: "cm", 6: "mm", 7: "inch", 8: "ft", 9: "yd", 10: "mi"
+    0: "km", 1: "hm", 2: "dam", 3: "m", 4: "dm", 5: "cm", 6: "mm",
+    7: "inch", 8: "ft", 9: "yd", 10: "mi", 11: "leag", 12: "er", 13: "ld",
+    14: "au", 15: "ly", 16: "pc", 17: "smt"
 }
 # all units converted to meters
 unitsinmetres = {
     "km": 1000.0, "hm": 100.0, "dam": 10.0, "m": 1.0, "dm": 0.1, "cm": 0.01, "mm": 0.001,
-    "inch": 0.0254, "ft": 0.3048, "yd": 0.9144, "mi": 1609.344
+    "inch": 0.0254, "ft": 0.3048, "yd": 0.9144, "mi": 1609.344, "leag": 4828.032
+    "er": 6371000, "ld": 384402000, "au": 149597870700, "ly": 9460730472580800,
+    "pc": 30856775814671900, "smt": 1.70
 }
 
 def unit_finder(inp):
