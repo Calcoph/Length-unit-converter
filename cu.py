@@ -33,7 +33,7 @@ unitsinmetres = {# All units converted to meters
     "km": 1000.0, "hm": 100.0, "dam": 10.0, "m": 1.0, "dm": 0.1, "cm": 0.01, "mm": 0.001,
     "inch": 0.0254, "ft": 0.3048, "yd": 0.9144, "mi": 1609.344, "leag": 4828.032
     "er": 6371000, "ld": 384402000, "au": 149597870700, "ly": 9460730472580800,
-    "pc": 30856775814671900, "smt": 1.70
+    "pc": 30856775814671900, "smt": 1.7
 }
 
 def unit_finder(inp): # Finds what unit is the user talking about
