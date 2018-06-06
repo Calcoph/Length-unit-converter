@@ -209,13 +209,30 @@ class Application(Tk):
             ["smt", "smoot", "smoots"]
             ]
             # Most of the widgets
+        def disablebutton():
+            fadingbutton.grid_forget()
+            self.maxsize(width=291, height=138)
+            self.minsize(width=291, height=138)
+            self.maxsize(width=9999999, height=9999999)
+        def displaytooltip():
+            fadingbutton["height"] = 5
+            fadingbutton["text"] = "Click HERE to hide this"
+        def displaytext():
+            fadingbutton["text"] ="******************************************************"\
+            +"\nThis is intended for day to day use and might have"\
+            +"\naccuracy problems dealing with numbers very large,"\
+            +"\nvery low or numbers that have a lot of decimals."\
+            +"\n******************************************************"
         ttk.Label(mainframe, text="Equals to:").grid(column=1, row=3, sticky=(N, S, W, E))
-        ttk.Label(mainframe, text="Convert any length unit to another one instantly!\
-        \n*****************************************************\
-        \nThis is intended for day to day use and might have\
-        \nproblems dealing with numbers very large, very\
-        \nlow or ones that have a lot of decimals.\
-        \n*****************************************************").grid(column=1, row=1, columnspan=2, sticky=(N, S, W, E))
+        ttk.Label(mainframe, text="Convert any length unit to another one instantly!"\
+        ).grid(column=1, row=0, columnspan=2, sticky=(N, S, W, E))
+        fadingbutton = Button(mainframe, text=\
+        "******************************************************"\
+        +"\nThis is intended for day to day use and might have"\
+        +"\naccuracy problems dealing with numbers very large,"\
+        +"\nvery low or numbers that have a lot of decimals."\
+        +"\n******************************************************", justify="left", width=40, command=disablebutton)
+        fadingbutton.grid(column=1, row=1, columnspan=2, sticky=(N, S, W, E))
         ttk.Label(mainframe, textvariable=output).grid(column=1, row=4, sticky=(N, S, W, E))
         ttk.Button(mainframe, text="^v", command=changetheinputs).grid(column=2, row=3, sticky=(N, S, W, E))
         def convert(finalunit, quantity, startingunit, outputname):
@@ -309,13 +326,16 @@ class Application(Tk):
         # Configure the entry
         quaninput.set("")
         quantityinput.focus()
-        mainframe.pack(expand=1)
+        #mainframe.pack(expand=1)
         # Bindings
+        fadingbutton.bind("<Enter>", lambda event:displaytooltip())
+        fadingbutton.bind("<Leave>", lambda event:displaytext())
         self.bind('<Return>', lambda event:convert(unitoutputbox.get(), quaninput, unitinputbox.get(), outputname))
+        # Set the minnimum window size
+        self.update()
+        self.minsize(self.winfo_width(), self.winfo_height())
 root = Application() # La ventana en si
 root.title("Feet to Meters") # Titulo de la ventana
-# Set the minnimum window size
-root.update()
-root.minsize(root.winfo_width(), root.winfo_height())
+
 
 root.mainloop()
