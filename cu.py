@@ -5,14 +5,14 @@ from tkinter import ttk
 
 
 class Combox(ttk.Combobox):
-    def __init__(self, frame, inputname, state="readonly"):
+    def __init__(self, frame, inputName, state="readonly"):
         self.frame = frame
         self.state = state
         ttk.Combobox.__init__(self, frame, state=state)
-        self.inputname = inputname
-        self.getinputname(inputname)
-    def getinputname(self, inputname):
-        bothvalueoptions = {
+        self.inputName = inputName
+        self.getInputName(inputName)
+    def getInputName(self, inputName):
+        bothValueOptions = {
         "km": "kilometer",
         "hm": "hectometer",
         "dam": "decameter",
@@ -32,7 +32,7 @@ class Combox(ttk.Combobox):
         "pc": "parsec",
         "smt": "smoot"
         }
-        if inputname.get() == 0:
+        if inputName.get() == 0:
             values = [
             "km",
             "hm",
@@ -53,7 +53,7 @@ class Combox(ttk.Combobox):
             "pc",
             "smt"
             ]
-        elif inputname.get() == 1:
+        elif inputName.get() == 1:
             values = [
             "kilometer",
             "hectometer",
@@ -74,20 +74,20 @@ class Combox(ttk.Combobox):
             "parsec",
             "smoot"
             ]
-        notinkeys = True
-        currentlydisplaying = self.get()
-        for key, value in bothvalueoptions.items():
-            if currentlydisplaying == key:
-                currentlydisplaying = key
-                newdisplay = value
-                notinkeys = False
-        if notinkeys:
-            for key, value in bothvalueoptions.items():
-                if currentlydisplaying == value:
-                    currentlydisplaying = value
-                    newdisplay = key
+        notInKeys = True
+        currentlyDisplaying = self.get()
+        for key, value in bothValueOptions.items():
+            if currentlyDisplaying == key:
+                currentlyDisplaying = key
+                newDisplay = value
+                notInKeys = False
+        if notInKeys:
+            for key, value in bothValueOptions.items():
+                if currentlyDisplaying == value:
+                    currentlyDisplaying = value
+                    newDisplay = key
         try:
-            self.set(newdisplay)
+            self.set(newDisplay)
         except UnboundLocalError:
             pass
         self["values"] = values
@@ -96,78 +96,69 @@ class Application(Tk):
         Tk.__init__(self) # Esto por algún motivo es super importante
         self.createWidgets()
     def createWidgets(self):
-        inputname = IntVar()
-        outputname = IntVar()
-        inputname.set(1)
-        outputname.set(0)
-        mainframe = ttk.Frame(self, padding="3 3 12 12") # La ventana de la ventana
-        mainframe.grid(column=0, row=0, sticky=(N, W, E, S)) # Colocar la ventana
-        mainframe.columnconfigure(0, weight=1)
-        mainframe.rowconfigure(0, weight=1)
-        unitinputbox = Combox(mainframe, inputname)
-        unitinputbox.grid(column=2, row=2, sticky=(N, S, W, E))
-        unitinputbox["values"] = unitinputbox.getinputname(inputname=inputname)
-        unitoutputbox = Combox(mainframe, inputname)
-        unitoutputbox.grid(column=2, row=4, sticky=(N, S, W, E))
-        unitoutputbox["values"] = unitinputbox.getinputname(inputname=inputname)
-        unitinputbox.set("meter")
-        unitoutputbox.set("foot")
-        def getinputnames(inputname):
-            unitinputbox.getinputname(inputname)
-            unitoutputbox.getinputname(inputname)
-        def round(floatnumber):
-            stringnumber = str(float(floatnumber))
-            if "." in stringnumber:
-                indexofdot = stringnumber.index(".")
-                newnumber = []
+        inputName = IntVar()
+        outputName = IntVar()
+        self.showDisclaimer = BooleanVar()
+        self.showDisclaimer.set(True)
+        inputName.set(1)
+        outputName.set(0)
+        mainFrame = ttk.Frame(self, padding="3 3 12 12") # La ventana de la ventana
+        mainFrame.grid(column=0, row=0, sticky=(N, W, E, S)) # Colocar la ventana
+        mainFrame.columnconfigure(0, weight=1)
+        mainFrame.rowconfigure(0, weight=1)
+        unitInputBox = Combox(mainFrame, inputName)
+        unitInputBox.grid(column=2, row=2, sticky=(N, S, W, E))
+        unitInputBox["values"] = unitInputBox.getInputName(inputName=inputName)
+        unitOutputBox = Combox(mainFrame, inputName)
+        unitOutputBox.grid(column=2, row=4, sticky=(N, S, W, E))
+        unitOutputBox["values"] = unitInputBox.getInputName(inputName=inputName)
+        unitInputBox.set("meter")
+        unitOutputBox.set("foot")
+        def getInputNames(inputName):
+            unitInputBox.getInputName(inputName)
+            unitOutputBox.getInputName(inputName)
+        def round(floatNumber):
+            stringNumber = str(float(floatNumber))
+            if "." in stringNumber:
+                indexOfDot = stringNumber.index(".")
+                newNumber = []
                 iterations = 0
-                while iterations <= (indexofdot + 2):
-                    if (iterations + 1) > len(stringnumber):
+                while iterations <= (indexOfDot + 2):
+                    if (iterations + 1) > len(stringNumber):
                         break
-                    if iterations == (indexofdot + 2):
+                    if iterations == (indexOfDot + 2):
                         try:
-                            if int(stringnumber[indexofdot + 3]) >= 5:
-                                newnumber.append(str(int(stringnumber[indexofdot + 2]) + 1))
+                            if int(stringNumber[indexOfDot + 3]) >= 5:
+                                newNumber.append(str(int(stringNumber[indexOfDot + 2]) + 1))
                             else:
-                                newnumber.append(stringnumber[iterations])
+                                newNumber.append(stringNumber[iterations])
                         except IndexError:
-                            newnumber.append(stringnumber[iterations])
+                            newNumber.append(stringNumber[iterations])
                     else:
-                        newnumber.append(stringnumber[iterations])
+                        newNumber.append(stringNumber[iterations])
                     iterations += 1
-                if "e" in stringnumber:
-                    indexofe = stringnumber.index("e")
-                    iterations = indexofe
-                    while iterations < len(stringnumber):
-                        newnumber.append(stringnumber[(iterations)])
+                if "e" in stringNumber:
+                    indexOfE = stringNumber.index("e")
+                    iterations = indexOfE
+                    while iterations < len(stringNumber):
+                        newNumber.append(stringNumber[(iterations)])
                         iterations += 1
-                    newnumber = "".join(newnumber)
-                    return newnumber
+                    newNumber = "".join(newNumber)
+                    return newNumber
                 else:
-                    newnumber = "".join(newnumber)
-                    return newnumber
+                    newNumber = "".join(newNumber)
+                    return newNumber
             else:
-                return stringnumber
+                return stringNumber
         # The menu
-        menubar = Menu(self)
-        filemenu = Menu(menubar, tearoff=0)
+        menuBar = Menu(self)
+        settings = Menu(menuBar, tearoff=0)
         global output
         output = StringVar()
-        quaninput = IntVar()
-        unitnameoptions = Menu(filemenu, tearoff=0)
-        unitnameoptions.add_radiobutton(label="Abreviated inputs", variable=inputname, value=0, command=lambda:getinputnames(inputname))
-        unitnameoptions.add_radiobutton(label="Full named inputs", variable=inputname, value=1, command=lambda:getinputnames(inputname))
-        unitnameoptions.add_separator()
-        unitnameoptions.add_radiobutton(label="Abreviated outputs", variable=outputname, value=0)
-        unitnameoptions.add_radiobutton(label="Full named outputs", variable=outputname, value=1)
-        filemenu.add_cascade(label="Unit name options", menu=unitnameoptions)
-        filemenu.add_separator()
-        filemenu.add_command(label="Exit", command=self.quit)
-        menubar.add_cascade(label="Settings", menu=filemenu)
-        self.config(menu=menubar)
-        changetheinputs = lambda:changeinputs(unitinputbox, unitoutputbox)
+        quanInput = IntVar()
+        changeTheInputs = lambda:changeInputs(unitInputBox, unitOutputBox)
         # all units converted to meters
-        unitsinmeters = {
+        unitsInMeters = {
             "kilometer": 1000.0,
             "hectometer": 100.0,
             "decameter": 10.0,
@@ -188,7 +179,7 @@ class Application(Tk):
             "smoot": 1.70
             }
         # List of all available units (abreviation, name, plural name)
-        unitnames = [
+        unitNames = [
             ["km", "kilometer", "kilometers"],
             ["hm", "hectometer", "hectometers"],
             ["dam","decameter", "decameters"],
@@ -209,34 +200,61 @@ class Application(Tk):
             ["smt", "smoot", "smoots"]
             ]
             # Most of the widgets
-        def disablebutton():
-            fadingbutton.grid_forget()
+        def disableButton():
+            fadingButton.grid_forget()
             self.maxsize(width=291, height=138)
             self.minsize(width=291, height=138)
             self.maxsize(width=9999999, height=9999999)
-        def displaytooltip():
-            fadingbutton["height"] = 5
-            fadingbutton["text"] = "Click HERE to hide this"
-        def displaytext():
-            fadingbutton["text"] ="******************************************************"\
+            self.showDisclaimer.set(False)
+        def recoverButton():
+            fadingButton.grid(column=1, row=1, columnspan=2, sticky=(N, S, W, E))
+            self.maxsize(width=305, height=224)
+            self.minsize(width=305, height=224)
+            self.maxsize(width=9999999, height=9999999)
+        def displayTooltip():
+            fadingButton["height"] = 5
+            fadingButton["text"] = "Click HERE to hide this"
+        def displayText():
+            fadingButton["text"] ="******************************************************"\
             +"\nThis is intended for day to day use and might have"\
             +"\naccuracy problems dealing with numbers very large,"\
             +"\nvery low or numbers that have a lot of decimals."\
             +"\n******************************************************"
-        ttk.Label(mainframe, text="Equals to:").grid(column=1, row=3, sticky=(N, S, W, E))
-        ttk.Label(mainframe, text="Convert any length unit to another one instantly!"\
+        def checkDisclaimerStatus():
+            if self.showDisclaimer.get() == False:
+                disableButton()
+            else:
+                recoverButton()
+
+        def printInfo():#used for debugging
+            print(self.winfo_width(), self.winfo_height())
+        unitNameOptions = Menu(settings, tearoff=0)
+        unitNameOptions.add_radiobutton(label="Abreviated inputs", variable=inputName, value=0, command=lambda:getInputNames(inputName))
+        unitNameOptions.add_radiobutton(label="Full named inputs", variable=inputName, value=1, command=lambda:getInputNames(inputName))
+        unitNameOptions.add_separator()
+        unitNameOptions.add_radiobutton(label="Abreviated outputs", variable=outputName, value=0)
+        unitNameOptions.add_radiobutton(label="Full named outputs", variable=outputName, value=1)
+        settings.add_cascade(label="Unit name options", menu=unitNameOptions)
+        settings.add_separator()
+        settings.add_checkbutton(label="Show disclaimer", variable=self.showDisclaimer, onvalue=True, offvalue=False, command=checkDisclaimerStatus)
+        settings.add_command(label="Exit", command=self.quit)
+        menuBar.add_cascade(label="Settings", menu=settings)
+        self.config(menu=menuBar)
+        ttk.Label(mainFrame, text="Equals to:").grid(column=1, row=3, sticky=(N, S, W, E))
+        ttk.Label(mainFrame, text="Convert any length unit to another one instantly!"\
         ).grid(column=1, row=0, columnspan=2, sticky=(N, S, W, E))
-        fadingbutton = Button(mainframe, text=\
+        fadingButton = Button(mainFrame, text=\
         "******************************************************"\
         +"\nThis is intended for day to day use and might have"\
         +"\naccuracy problems dealing with numbers very large,"\
         +"\nvery low or numbers that have a lot of decimals."\
-        +"\n******************************************************", justify="left", width=40, command=disablebutton)
-        fadingbutton.grid(column=1, row=1, columnspan=2, sticky=(N, S, W, E))
-        ttk.Label(mainframe, textvariable=output).grid(column=1, row=4, sticky=(N, S, W, E))
-        ttk.Button(mainframe, text="^v", command=changetheinputs).grid(column=2, row=3, sticky=(N, S, W, E))
-        def convert(finalunit, quantity, startingunit, outputname):
-            def selectoutputname(finalunit, outputname, quantity):
+        +"\n******************************************************", justify="left", width=40, command=disableButton)
+        fadingButton.grid(column=1, row=1, columnspan=2, sticky=(N, S, W, E))
+        ttk.Label(mainFrame, textvariable=output).grid(column=1, row=4, sticky=(N, S, W, E))
+        ttk.Button(mainFrame, text="^v", command=changeTheInputs).grid(column=2, row=3, sticky=(N, S, W, E))
+        #ttk.Button(mainFrame, text="^v", command=lambda:self.destroyWidgets(mainFrame)).grid(column=2, row=3, sticky=(N, S, W, E))
+        def convert(finalUnit, quantity, startingUnit, outputName):
+            def selectOutputName(finalUnit, outputName, quantity):
                 output0 = {
                     "kilometer": "km",
                     "hectometer": "hm",
@@ -277,14 +295,14 @@ class Application(Tk):
                     "parsec": "parsecs",
                     "smoot": "smoots"
                     }
-                if outputname.get() == 0:
-                    return output0[finalunit]
-                elif outputname.get() == 1:
+                if outputName.get() == 0:
+                    return output0[finalUnit]
+                elif outputName.get() == 1:
                     if float(quantity) == 1.0:
-                        return finalunit
+                        return finalUnit
                     else:
-                        return output1[finalunit]
-            inputconvertion = {
+                        return output1[finalUnit]
+            inputConvertion = {
                 "km": "kilometer",
                 "hm": "hectometer",
                 "dam": "decameter",
@@ -304,36 +322,38 @@ class Application(Tk):
                 "pc": "parsec",
                 "smt": "smoot"
                 }
-            if startingunit in inputconvertion:
-                startingunit = inputconvertion[startingunit]
-            if finalunit in inputconvertion:
-                finalunit = inputconvertion[finalunit]
-            meters = unitsinmeters[startingunit]
-            totalmeters = meters * int(str(quantity.get()))
-            total = totalmeters / unitsinmeters[finalunit]
+            if startingUnit in inputConvertion:
+                startingUnit = inputConvertion[startingUnit]
+            if finalUnit in inputConvertion:
+                finalUnit = inputConvertion[finalUnit]
+            meters = unitsInMeters[startingUnit]
+            totalMeters = meters * int(str(quantity.get()))
+            total = totalMeters / unitsInMeters[finalUnit]
             total = round(total)
-            finalunit = selectoutputname(finalunit, outputname, total)
-            final = total + " " + finalunit
+            finalUnit = selectOutputName(finalUnit, outputName, total)
+            final = total + " " + finalUnit
             output.set(final)
-        ttk.Button(mainframe, text="CONVERT", command=lambda:convert(unitoutputbox.get(), quaninput, unitinputbox.get(), outputname)).grid(column=1, row=5, columnspan=2, padx=100, pady=(12, 0), sticky=(N, S, W, E))
-        def changeinputs(unitinputbox, unitoutputbox):
-            inputbefore = unitinputbox.get()
-            outputbefore = unitoutputbox.get()
-            unitinputbox.set(outputbefore)
-            unitoutputbox.set(inputbefore)
-        quantityinput = ttk.Entry(mainframe, textvariable=quaninput)
-        quantityinput.grid(column=1, row=2, sticky=(N, S, W, E))
+        ttk.Button(mainFrame, text="CONVERT", command=lambda:convert(unitOutputBox.get(), quanInput, unitInputBox.get(), outputName)).grid(column=1, row=5, columnspan=2, padx=100, pady=(12, 0), sticky=(N, S, W, E))
+        def changeInputs(unitInputBox, unitOutputBox):
+            inputbefore = unitInputBox.get()
+            outputbefore = unitOutputBox.get()
+            unitInputBox.set(outputbefore)
+            unitOutputBox.set(inputbefore)
+        quantityInput = ttk.Entry(mainFrame, textvariable=quanInput)
+        quantityInput.grid(column=1, row=2, sticky=(N, S, W, E))
         # Configure the entry
-        quaninput.set("")
-        quantityinput.focus()
-        #mainframe.pack(expand=1)
+        quanInput.set("")
+        quantityInput.focus()
+        mainFrame.pack(expand=1)
         # Bindings
-        fadingbutton.bind("<Enter>", lambda event:displaytooltip())
-        fadingbutton.bind("<Leave>", lambda event:displaytext())
-        self.bind('<Return>', lambda event:convert(unitoutputbox.get(), quaninput, unitinputbox.get(), outputname))
+        fadingButton.bind("<Enter>", lambda event:displayTooltip())
+        fadingButton.bind("<Leave>", lambda event:displayText())
+        self.bind('<Return>', lambda event:convert(unitOutputBox.get(), quanInput, unitInputBox.get(), outputName))
         # Set the minnimum window size
         self.update()
         self.minsize(self.winfo_width(), self.winfo_height())
+    def destroyWidgets(self, mainFrame):
+        mainFrame.pack_forget()
 root = Application() # La ventana en si
 root.title("Feet to Meters") # Titulo de la ventana
 
