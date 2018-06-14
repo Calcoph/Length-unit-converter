@@ -104,6 +104,8 @@ class Application(Tk):
         self.rowconfigure(0, weight=1)
     def lengthConverter(self):
         self.title("Length converter")
+        lengthConverterMinimumWindowSize = (484, 343)
+        x, y = lengthConverterMinimumWindowSize
         self.lengthFrame = ttk.Frame(self, padding="3 3 12 12") # La ventana de la ventana
         self.lengthFrame.grid(column=0, row=0, sticky=(N, W, E, S)) # Colocar la ventana
         self.lengthFrame.columnconfigure(1, weight=1)
@@ -214,14 +216,14 @@ class Application(Tk):
                                         variable=self.outputName, value=1)
         def disableButton():
             self.fadingButton.grid_forget()
-            self.maxsize(width=291, height=163)
-            self.minsize(width=291, height=163)
+            self.maxsize(x, y)
+            self.minsize(x, y)
             self.maxsize(width=9999999, height=9999999)
             self.showDisclaimer.set(False)
         def recoverButton():
             self.fadingButton.grid(column=1, row=1, columnspan=2, sticky=(N, S, W, E))
-            self.maxsize(width=305, height=249)
-            self.minsize(width=305, height=249)
+            self.maxsize(x, y)
+            self.minsize(x, y)
             self.maxsize(width=9999999, height=9999999)
         ttk.Label(self.lengthFrame, text="Equals to:", font=self.myFont).grid(column=1, row=3,
                                                         sticky=(N, S, W, E))
@@ -245,6 +247,8 @@ class Application(Tk):
         ttk.Button(self.lengthFrame, text="Home", command=home, width=0, style="Big.TButton").grid(column=1,
                                                                         row=6,
                                                                         sticky=W)
+        #ttk.Button(self.lengthFrame, text="Print window size", command=printInfo).\
+        #grid(column=2, row=6, sticky=(N, S, W, E))
         def convert(finalUnit, quantity, startingUnit):
             def selectOutputName(finalUnit, quantity):
                 output0 = {
@@ -327,7 +331,7 @@ class Application(Tk):
             output.set(final)
         ttk.Button(self.lengthFrame, text="CONVERT", style="Big.TButton",
                     command=lambda:convert(unitOutputBox.get(), quanInput,
-                                            unitInputBox.get(), outputName)
+                                            unitInputBox.get())
                                             ).grid(column=1, row=5,
                                                     columnspan=2, padx=100,
                                                     pady=(12, 0), sticky=(N, S, W, E))
@@ -349,7 +353,7 @@ class Application(Tk):
                     )
         # Set the minnimum window size
         self.update()
-        self.minsize(self.winfo_width(), self.winfo_height())
+        self.minsize(x, y)
     def destroyWidgets(self):
         try:
             self.lengthFrame.pack_forget()
@@ -383,7 +387,7 @@ class Application(Tk):
         def getInputNames():
             unitInputBox.getInputName(self.inputName)
             unitOutputBox.getInputName(self.inputName)
-        def checkDisclaimerStatus():######################
+        def checkDisclaimerStatus():
             if self.showDisclaimer.get() == False:
                 disableButton()
             else:
@@ -402,6 +406,8 @@ class Application(Tk):
         self.config(menu=menuBar)
         #   menu arriba
     def home(self):
+        HomeMinimumWindowSize = (277, 75)
+        x, y = HomeMinimumWindowSize
         def length():
             self.destroyWidgets()
             self.lengthConverter()
@@ -412,12 +418,16 @@ class Application(Tk):
         self.homeFrame.columnconfigure(2, weight=1)
         self.homeFrame.rowconfigure(1, weight=1)
         self.homeFrame.rowconfigure(2, weight=1)
+        def printInfo():#used for debugging
+            print(self.winfo_width(), self.winfo_height())
         ttk.Label(self.homeFrame, text="Choose your converter!", font=self.myFont
                     ).grid(column=1,
                             row=1,
                             sticky=(N, S, W, E),
                             columnspan=2
                             )
+        #ttk.Button(self.homeFrame, text="Print window size", command=printInfo).\
+        #grid(column=1, row=1, sticky=(N, S, W, E))
         ttk.Button(self.homeFrame, text="Length", command=length,
                     style="Big.TButton").grid(column=1,
                             row=2,
@@ -430,6 +440,6 @@ class Application(Tk):
                             )
         #self.homeFrame.pack(expand=1)
         self.update()
-        self.minsize(self.winfo_width(), self.winfo_height())
+        self.minsize(x, y)
 root = Application() # La ventana en si
 root.mainloop()
