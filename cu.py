@@ -2,13 +2,13 @@
 
 from tkinter import *
 from tkinter import ttk
-
+import tkinter.font as tkFont
 
 class Combox(ttk.Combobox):
-    def __init__(self, frame, inputName, state="readonly"):
+    def __init__(self, frame, inputName, font, state="readonly"):
         self.frame = frame
         self.state = state
-        ttk.Combobox.__init__(self, frame, state=state)
+        ttk.Combobox.__init__(self, frame, font=font, state=state)
         self.getInputName(inputName)
     def getInputName(self, inputName):
         bothValueOptions = {
@@ -94,6 +94,10 @@ class Application(Tk):
     def __init__(self):
         Tk.__init__(self) # Esto por algún motivo es super importante
         self.createMenu()
+        self.myFont = tkFont.Font(size=15)
+        self.buttonStyle = ttk.Style()
+        self.buttonStyle.configure("Big.TButton", font=self.myFont)
+        self.option_add("*TCombobox*Listbox*Font", self.myFont)
         self.home()
         self.grid()
         self.columnconfigure(0, weight=1)
@@ -111,10 +115,10 @@ class Application(Tk):
         self.lengthFrame.rowconfigure(4, weight=1)
         self.lengthFrame.rowconfigure(5, weight=1)
         self.lengthFrame.rowconfigure(6, weight=1)
-        unitInputBox = Combox(self.lengthFrame, self.inputName)
+        unitInputBox = Combox(self.lengthFrame, self.inputName, font=self.myFont)
         unitInputBox.grid(column=2, row=2, sticky=(N, S, W, E))
         unitInputBox["values"] = unitInputBox.getInputName(self.inputName)
-        unitOutputBox = Combox(self.lengthFrame, self.inputName)
+        unitOutputBox = Combox(self.lengthFrame, self.inputName, font=self.myFont)
         unitOutputBox.grid(column=2, row=4, sticky=(N, S, W, E))
         unitOutputBox["values"] = unitInputBox.getInputName(self.inputName)
         unitInputBox.set("meter")
@@ -155,9 +159,6 @@ class Application(Tk):
                     return newNumber
             else:
                 return stringNumber
-        # The menu
-        #menuBar = Menu(self)###############
-        #settings = Menu(menuBar, tearoff=0)################
         global output
         output = StringVar()
         quanInput = IntVar()
@@ -222,24 +223,26 @@ class Application(Tk):
             self.maxsize(width=305, height=249)
             self.minsize(width=305, height=249)
             self.maxsize(width=9999999, height=9999999)
-        ttk.Label(self.lengthFrame, text="Equals to:").grid(column=1, row=3,
+        ttk.Label(self.lengthFrame, text="Equals to:", font=self.myFont).grid(column=1, row=3,
                                                         sticky=(N, S, W, E))
         ttk.Label(self.lengthFrame, text="Convert any length unit to another one instantly!",\
-                    ).grid(column=1, row=0, columnspan=2, sticky=(N, S, W, E))
+                    font=self.myFont).grid(column=1, row=0, columnspan=2, sticky=(N, S, W, E))
         self.fadingButton = Button(self.lengthFrame, text=\
                                 "******************************************************"\
                                 +"\nThis is intended for day to day use and might have"\
                                 +"\naccuracy problems dealing with numbers very large,"\
                                 +"\nvery low or numbers that have a lot of decimals."\
                                 +"\n******************************************************",
-                                justify="left", width=40, command=disableButton)
+                                justify="left", width=40, command=disableButton, font=self.myFont
+                                )
         self.fadingButton.grid(column=1, row=1, columnspan=2, sticky=(N, S, W, E))
-        ttk.Label(self.lengthFrame, textvariable=output).grid(column=1, row=4,
+        ttk.Label(self.lengthFrame, textvariable=output, font=self.myFont).grid(column=1, row=4,
                                                         sticky=(N, S, W, E))
-        ttk.Button(self.lengthFrame, text="^v", command=changeTheInputs).grid(column=2,
-                                                                        row=3,
-                                                                        sticky=(N, S, W, E))
-        ttk.Button(self.lengthFrame, text="Home", command=home, width=0).grid(column=1,
+        ttk.Button(self.lengthFrame, text="^v", command=changeTheInputs, style="Big.TButton"
+                    ).grid(column=2,
+                            row=3,
+                            sticky=(N, S, W, E))
+        ttk.Button(self.lengthFrame, text="Home", command=home, width=0, style="Big.TButton").grid(column=1,
                                                                         row=6,
                                                                         sticky=W)
         def convert(finalUnit, quantity, startingUnit):
@@ -322,7 +325,7 @@ class Application(Tk):
             finalUnit = selectOutputName(finalUnit, total)
             final = total + " " + finalUnit
             output.set(final)
-        ttk.Button(self.lengthFrame, text="CONVERT",
+        ttk.Button(self.lengthFrame, text="CONVERT", style="Big.TButton",
                     command=lambda:convert(unitOutputBox.get(), quanInput,
                                             unitInputBox.get(), outputName)
                                             ).grid(column=1, row=5,
@@ -333,19 +336,17 @@ class Application(Tk):
             outputbefore = unitOutputBox.get()
             unitInputBox.set(outputbefore)
             unitOutputBox.set(inputbefore)
-        quantityInput = ttk.Entry(self.lengthFrame, textvariable=quanInput)
+        quantityInput = ttk.Entry(self.lengthFrame, textvariable=quanInput, font=self.myFont)
         quantityInput.grid(column=1, row=2, sticky=(N, S, W, E))
         # Configure the entry
         quanInput.set("")
         quantityInput.focus()
-        #self.lengthFrame.pack(expand=1)
-        # Bindings
         self.fadingButton.bind("<Enter>", lambda event:displayTooltip())
         self.fadingButton.bind("<Leave>", lambda event:displayText())
         self.bind('<Return>', lambda event:convert(unitOutputBox.get(),
                                                     quanInput, unitInputBox.get()
                                                     )
-                                                    )
+                    )
         # Set the minnimum window size
         self.update()
         self.minsize(self.winfo_width(), self.winfo_height())
@@ -411,19 +412,19 @@ class Application(Tk):
         self.homeFrame.columnconfigure(2, weight=1)
         self.homeFrame.rowconfigure(1, weight=1)
         self.homeFrame.rowconfigure(2, weight=1)
-        ttk.Label(self.homeFrame, text="Choose your converter!"
+        ttk.Label(self.homeFrame, text="Choose your converter!", font=self.myFont
                     ).grid(column=1,
                             row=1,
                             sticky=(N, S, W, E),
                             columnspan=2
                             )
-        ttk.Button(self.homeFrame, text="Length", command=length
-                    ).grid(column=1,
+        ttk.Button(self.homeFrame, text="Length", command=length,
+                    style="Big.TButton").grid(column=1,
                             row=2,
                             sticky=(N, S, W, E)
                             )
-        ttk.Button(self.homeFrame, text="Volume", command=length
-                    ).grid(column=2,
+        ttk.Button(self.homeFrame, text="Volume", command=length,
+                    style="Big.TButton").grid(column=2,
                             row=2,
                             sticky=(N, S, W, E)
                             )
