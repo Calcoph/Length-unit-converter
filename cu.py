@@ -104,7 +104,8 @@ class Application(Tk):
         self.rowconfigure(0, weight=1)
     def lengthConverter(self):
         self.title("Length converter")
-        lengthConverterMinimumWindowSize = (484, 343)
+        lengthConverterMinimumWindowSize = (9999, 9999)
+        #lengthConverterMinimumWindowSize = (484, 343)
         x, y = lengthConverterMinimumWindowSize
         self.lengthFrame = ttk.Frame(self, padding="3 3 12 12") # La ventana de la ventana
         self.lengthFrame.grid(column=0, row=0, sticky=(N, W, E, S)) # Colocar la ventana
@@ -118,10 +119,10 @@ class Application(Tk):
         self.lengthFrame.rowconfigure(5, weight=1)
         self.lengthFrame.rowconfigure(6, weight=1)
         unitInputBox = Combox(self.lengthFrame, self.inputName, font=self.myFont)
-        unitInputBox.grid(column=2, row=2, sticky=(N, S, W, E))
+        unitInputBox.grid(column=2, row=2, padx=(7, 0), pady=(1, 2), sticky=(N, S, W, E))
         unitInputBox["values"] = unitInputBox.getInputName(self.inputName)
         unitOutputBox = Combox(self.lengthFrame, self.inputName, font=self.myFont)
-        unitOutputBox.grid(column=2, row=4, sticky=(N, S, W, E))
+        unitOutputBox.grid(column=2, row=4, padx=(7, 0), pady=(2, 0), sticky=(N, S, W, E))
         unitOutputBox["values"] = unitInputBox.getInputName(self.inputName)
         unitInputBox.set("meter")
         unitOutputBox.set("foot")
@@ -240,15 +241,15 @@ class Application(Tk):
         self.fadingButton.grid(column=1, row=1, columnspan=2, sticky=(N, S, W, E))
         ttk.Label(self.lengthFrame, textvariable=output, font=self.myFont).grid(column=1, row=4,
                                                         sticky=(N, S, W, E))
-        ttk.Button(self.lengthFrame, text="^v", command=changeTheInputs, style="Big.TButton"
+        ttk.Button(self.lengthFrame, text="^v", command=changeTheInputs, width=4, style="Big.TButton"
                     ).grid(column=2,
                             row=3,
-                            sticky=(N, S, W, E))
+                            )
         ttk.Button(self.lengthFrame, text="Home", command=home, width=0, style="Big.TButton").grid(column=1,
                                                                         row=6,
                                                                         sticky=W)
-        #ttk.Button(self.lengthFrame, text="Print window size", command=printInfo).\
-        #grid(column=2, row=6, sticky=(N, S, W, E))
+        ttk.Button(self.lengthFrame, text="Print window size", command=printInfo).\
+        grid(column=2, row=6, sticky=(N, S, W, E))
         def convert(finalUnit, quantity, startingUnit):
             def selectOutputName(finalUnit, quantity):
                 output0 = {
@@ -341,7 +342,7 @@ class Application(Tk):
             unitInputBox.set(outputbefore)
             unitOutputBox.set(inputbefore)
         quantityInput = ttk.Entry(self.lengthFrame, textvariable=quanInput, font=self.myFont)
-        quantityInput.grid(column=1, row=2, sticky=(N, S, W, E))
+        quantityInput.grid(column=1, row=2, padx=(0, 7), pady=(1, 0), sticky=(N, S, W, E))
         # Configure the entry
         quanInput.set("")
         quantityInput.focus()
