@@ -54,7 +54,8 @@ class Combox(ttk.Combobox):
                                     ["dL", "Deciliter", "Deciliters"],
                                     ["cL", "Centiliter", "Centiliters"],
                                     ["mL", "Milliliter", "Milliliters"],
-                                    ["tsp", "USC Teaspoon", "USC Teaspoons"]
+                                    ["tsp", "USC Teaspoon", "USC Teaspoons"],
+                                    ["Tbsp", "USC Tablespoon", "USC Tablespoons"]
                                     ]
         else:
             self.allValueOptions = [
@@ -351,7 +352,8 @@ class Application(Tk):
                                     ["dL", "Deciliter", "Deciliters"],
                                     ["cL", "Centiliter", "Centiliters"],
                                     ["mL", "Milliliter", "Milliliters"],
-                                    ["tsp", "USC Teaspoon", "USC Teaspoons"]
+                                    ["tsp", "USC Teaspoon", "USC Teaspoons"],
+                                    ["Tbsp", "USC Tablespoon", "USC Tablespoons"]
                                     ]
         self.volumeFrame = ttk.Frame(self, padding="3 3 12 12") # La ventana de la ventana
         self.volumeFrame.grid(column=0, row=0, sticky=(N, W, E, S)) # Colocar la ventana
@@ -441,6 +443,7 @@ class Application(Tk):
                             "Centiliter": 0.01,
                             "Milliliter": 0.001,
                             "USC Teaspoon": 0.0049289215937,
+                            "USC Tablespoon": 0.0147868
                             }
         # Most of the widgets
         def displayTooltip():
