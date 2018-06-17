@@ -5,61 +5,10 @@ from tkinter import ttk
 import tkinter.font as tkFont
 
 class Combox(ttk.Combobox):
-    def __init__(self, frame, inputName, magnitude, font, state="readonly"):
+    def __init__(self, frame, inputName, units, font, state="readonly"):
         self.frame = frame
         self.state = state
-        if magnitude == "length":
-            self.allValueOptions = [["km", "Kilometer", "kilometers"],
-                                    ["hm", "Hectometer", "hectometers"],
-                                    ["dam", "Decameter", "decameters"],
-                                    ["m", "Meter", "meters"],
-                                    ["dm", "Decimeter", "decimeters"],
-                                    ["cm", "centimeter", "centimeters"],
-                                    ["mm", "Millimeter", "millimeters"],
-                                    ["in", "USC Inch", "USC inches"],
-                                    ["ft", "USC Foot", "USC feet"],
-                                    ["yd", "USC Yard", "USC yards"],
-                                    ["mi", "USC Mile", "USC miles"],
-                                    ["lea", "USC League", "USC leagues"],
-                                    ["er", "Earth radius", "earth radiuses"],
-                                    ["ld", "lunar distance", "lunar distances"],
-                                    ["au", "Astronomical unit", "astronomical units"],
-                                    ["ly", "Light year", "light years"],
-                                    ["pc", "Parsec", "parsecs"],
-                                    ["smt", "Smoot", "smoots"]
-                                    ]
-        elif magnitude == "volume":
-            self.allValueOptions = [["km\u00b3", "Cubic kilometer", "Cubic kilometers"], # ESTOOOOO
-                                    ["hm\u00b3", "Cubic hectometer", "Cubic hectometers"],
-                                    ["dam\u00b3", "Cubic decameter", "Cubic decameters"],
-                                    ["m\u00b3", "Cubic meter", "Cubic meters"],
-                                    ["dm\u00b3", "Cubic decimeter", "Cubic decimeters"],
-                                    ["cm\u00b3", "Cubic centimeter", "Cubic centimeters"],
-                                    ["mm\u00b3", "Cubic millimeter", "Cubic millimeters"],
-                                    ["in\u00b3", "USC Cubic inch", "USC Cubic inches"],
-                                    ["ft\u00b3", "USC Cubic foot", "USC Cubic feet"],
-                                    ["yd\u00b3", "USC Cubic yard", "USC Cubic yards"],
-                                    ["mi\u00b3", "USC Cubic mile", "USC Cubic miles"],
-                                    ["lea\u00b3", "USC Cubic league", "USC Cubic leagues"],
-                                    ["er\u00b3", "Cubic earth radius", "Cubic earth radiuses"],
-                                    ["ld\u00b3", "Cubic lunar distance", "Cubic lunar distances"],
-                                    ["au\u00b3", "Cubic astronomical unit", "Cubic astronomical units"],
-                                    ["ly\u00b3", "Cubic light year", "Cubic light years"],
-                                    ["pc\u00b3", "Cubic parsec", "Cubic parsecs"],
-                                    ["smt\u00b3", "Cubic smoot", "Cubic smoots"],
-                                    ["kL", "Kiloliter", "Kiloliters"],
-                                    ["hL", "Hectoliter", "Hectoliters"],
-                                    ["daL", "Decaliter", "Decaliters"],
-                                    ["L", "Liter", "Liters"],
-                                    ["dL", "Deciliter", "Deciliters"],
-                                    ["cL", "Centiliter", "Centiliters"],
-                                    ["mL", "Milliliter", "Milliliters"],
-                                    ["tsp", "USC Teaspoon", "USC Teaspoons"],
-                                    ["Tbsp", "USC Tablespoon", "USC Tablespoons"]
-                                    ]
-        else:
-            self.allValueOptions = [
-                ]
+        self.allValueOptions = units
         ttk.Combobox.__init__(self, frame, font=font, state=state)
         self.getInputName(inputName)
     def getInputName(self, inputName):# Changes the combobox options' names
@@ -108,24 +57,24 @@ class Application(Tk):
     def lengthConverter(self):
         self.title("Length converter")
         x, y = self.lengthConverterMinimumWindowSize
-        self.allLengthValueOptions = [["km", "kilometer", "kilometers"],
-                                        ["hm", "hectometer", "hectometers"],
-                                        ["dam", "decameter", "decameters"],
-                                        ["m", "meter", "meters"],
-                                        ["dm", "decimeter", "decimeters"],
-                                        ["cm", "centimeter", "centimeters"],
-                                        ["mm", "millimeter", "millimeters"],
-                                        ["in", "USC inch", "USC inches"],
-                                        ["ft", "USC foot", "USC feet"],
-                                        ["yd", "USC yard", "USC yards"],
-                                        ["mi", "USC mile", "USC miles"],
-                                        ["lea", "USC league", "USC leagues"],
-                                        ["er", "earth radius", "earth radiuses"],
-                                        ["ld", "lunar distance", "lunar distances"],
-                                        ["au", "astronomical unit", "astronomical units"],
-                                        ["ly", "light year", "light years"],
-                                        ["pc", "parsec", "parsecs"],
-                                        ["smt", "smoot", "smoots"]
+        self.allLengthValueOptions = [["km", "Kilometer", "Kilometers"],
+                                        ["hm", "Hectometer", "Hectometers"],
+                                        ["dam", "Decameter", "Decameters"],
+                                        ["m", "Meter", "Meters"],
+                                        ["dm", "Decimeter", "Decimeters"],
+                                        ["cm", "Centimeter", "Centimeters"],
+                                        ["mm", "Millimeter", "Millimeters"],
+                                        ["in", "USC Inch", "USC Inches"],
+                                        ["ft", "USC Foot", "USC Feet"],
+                                        ["yd", "USC Yard", "USC Yards"],
+                                        ["mi", "USC Mile", "USC Miles"],
+                                        ["lea", "USC League", "USC Leagues"],
+                                        ["er", "Earth radius", "Earth radiuses"],
+                                        ["ld", "Lunar distance", "Lunar distances"],
+                                        ["au", "Astronomical unit", "Astronomical units"],
+                                        ["ly", "Light year", "Light years"],
+                                        ["pc", "Parsec", "Parsecs"],
+                                        ["smt", "Smoot", "Smoots"]
                                         ]
         self.lengthFrame = ttk.Frame(self, padding="3 3 12 12") # La ventana de la ventana
         self.lengthFrame.grid(column=0, row=0, sticky=(N, W, E, S)) # Colocar la ventana
@@ -138,10 +87,10 @@ class Application(Tk):
         self.lengthFrame.rowconfigure(4, weight=1)
         self.lengthFrame.rowconfigure(5, weight=1)
         self.lengthFrame.rowconfigure(6, weight=1)
-        unitInputBox = Combox(self.lengthFrame, self.inputName, "length", font=self.myFont)
+        unitInputBox = Combox(self.lengthFrame, self.inputName, self.allLengthValueOptions, font=self.myFont)
         unitInputBox.grid(column=2, row=2, padx=(7, 0), pady=(1, 2), sticky=(N, S, W, E))
         unitInputBox["values"] = unitInputBox.getInputName(self.inputName)
-        unitOutputBox = Combox(self.lengthFrame, self.inputName, "length", font=self.myFont)
+        unitOutputBox = Combox(self.lengthFrame, self.inputName, self.allLengthValueOptions, font=self.myFont)
         unitOutputBox.grid(column=2, row=4, padx=(7, 0), pady=(2, 0), sticky=(N, S, W, E))
         unitOutputBox["values"] = unitInputBox.getInputName(self.inputName)
         unitInputBox.set("meter")
@@ -187,24 +136,24 @@ class Application(Tk):
         quanInput = IntVar()
         changeTheInputs = lambda:changeInputs(unitInputBox, unitOutputBox)
         # all units converted to meters
-        unitsInMeters = {"kilometer": 1000.0,
-                        "hectometer": 100.0,
-                        "decameter": 10.0,
-                        "meter": 1.0,
-                        "decimeter": 0.1,
-                        "centimeter": 0.01,
-                        "millimeter": 0.001,
-                        "USC inch": 0.0254,
-                        "USC foot": 0.3048,
-                        "USC yard": 0.9144,
-                        "USC mile": 1609.344,
-                        "USC league": 4828.032,
-                        "earth radius": 6371000.0,
-                        "lunar distance": 384402000.0,
-                        "astronomical unit": 149597870700.0,
-                        "light year": 9460730472580800.0,
-                        "parsec": 30856775814671900.0,
-                        "smoot": 1.70
+        unitsInMeters = {"Kilometer": 1000.0,
+                        "Hectometer": 100.0,
+                        "Decameter": 10.0,
+                        "Meter": 1.0,
+                        "Decimeter": 0.1,
+                        "Centimeter": 0.01,
+                        "Millimeter": 0.001,
+                        "USC Inch": 0.0254,
+                        "USC Foot": 0.3048,
+                        "USC Yard": 0.9144,
+                        "USC Mile": 1609.344,
+                        "USC League": 4828.032,
+                        "Earth radius": 6371000.0,
+                        "Lunar distance": 384402000.0,
+                        "Astronomical unit": 149597870700.0,
+                        "Light year": 9460730472580800.0,
+                        "Parsec": 30856775814671900.0,
+                        "Smoot": 1.70
                         }
             # Most of the widgets
         def displayTooltip():
@@ -366,10 +315,10 @@ class Application(Tk):
         self.volumeFrame.rowconfigure(4, weight=1)
         self.volumeFrame.rowconfigure(5, weight=1)
         self.volumeFrame.rowconfigure(6, weight=1)
-        unitInputBox = Combox(self.volumeFrame, self.inputName, "volume", font=self.myFont)
+        unitInputBox = Combox(self.volumeFrame, self.inputName, self.allVolumeValueOptions, font=self.myFont)
         unitInputBox.grid(column=2, row=2, padx=(7, 0), pady=(1, 2), sticky=(N, S, W, E))
         unitInputBox["values"] = unitInputBox.getInputName(self.inputName)
-        unitOutputBox = Combox(self.volumeFrame, self.inputName, "volume", font=self.myFont)
+        unitOutputBox = Combox(self.volumeFrame, self.inputName, self.allVolumeValueOptions, font=self.myFont)
         unitOutputBox.grid(column=2, row=4, padx=(7, 0), pady=(2, 0), sticky=(N, S, W, E))
         unitOutputBox["values"] = unitInputBox.getInputName(self.inputName)
         unitInputBox.set("Cubic meter")
