@@ -536,6 +536,7 @@ class Application(Tk):
             self.homeFrame.pack_forget()
         except:
             pass
+        self.createMenu()
         self.maxsize(width=9999999, height=9999999)
         self.minsize(width=0, height=0)
     def createMenu(self): #TRABAJOAQUIIII
@@ -565,21 +566,22 @@ class Application(Tk):
             else:
                 recoverButton()
         menuBar = Menu(self)
-        settings = Menu(menuBar, tearoff=0)
-        self.unitNameOptions = Menu(settings, tearoff=0)
-        settings.add_cascade(label="Unit name options", menu=self.unitNameOptions)
-        settings.add_separator()
-        settings.add_checkbutton(label="Show disclaimer",
+        self.settings = Menu(menuBar, tearoff=0)
+        self.unitNameOptions = Menu(self.settings, tearoff=0)
+        self.settings.add_cascade(label="Unit name options", menu=self.unitNameOptions)
+        self.settings.add_separator()
+        self.settings.add_checkbutton(label="Show disclaimer",
                                     variable=self.showDisclaimer,
                                     onvalue=True, offvalue=False,
                                     command=checkDisclaimerStatus)
-        settings.add_command(label="Exit", command=self.quit)
-        menuBar.add_cascade(label="Settings", menu=settings)
+        self.settings.add_command(label="Exit", command=self.quit)
+        menuBar.add_cascade(label="settings", menu=self.settings)
         self.config(menu=menuBar)
         #   menu arriba
     def home(self):
         HomeMinimumWindowSize = (277, 75)
         x, y = HomeMinimumWindowSize
+        self.settings.entryconfig("Unit name options", state="disabled")
         def length():
             self.destroyWidgets()
             self.lengthConverter()
